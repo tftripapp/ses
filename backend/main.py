@@ -25,13 +25,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Frontend static dosyalarını serve et
-try:
-    app.mount("/", StaticFiles(directory="frontend/out", html=True), name="static")
-except:
-    # Eğer frontend build edilmemişse, sadece API çalışır
-    pass
-
 # Whisper modelini yükle
 model = whisper.load_model("base")
 
@@ -244,6 +237,12 @@ async def process_url_transcription(transcription_id: str, url: str, language: O
         for file_path in [temp_file_path, f"{temp_file_path}.mp3"]:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+# EN SONDA: Frontend static dosyalarını serve et (API route'larından sonra!)
+try:
+    app.mount("/", StaticFiles(directory="frontend/out", html=True), name="static")
+except Exception as e:
+    pass
 
 if __name__ == "__main__":
     import uvicorn
