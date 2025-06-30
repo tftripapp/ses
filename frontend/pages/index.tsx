@@ -17,39 +17,33 @@ export default function Home() {
   };
 
   const handleUpload = async () => {
-    if (!file) return;
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const res = await fetch(`${API_URL}/api/transcribe`, {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.id) {
-        // polling
-        let status = data.status;
-        let text = '';
-        while (status === 'processing') {
-          await new Promise(r => setTimeout(r, 2000));
-          const poll = await fetch(`${API_URL}/api/transcriptions/${data.id}`);
-          const pollData = await poll.json();
-          status = pollData.status;
-          text = pollData.text;
-        }
-        setResult(text);
-      } else {
-        setError('Transkript başlatılamadı.');
-      }
-    } catch (e) {
-      setError('Bir hata oluştu.');
+  if (!file) {
+    setError('Lütfen bir dosya seçin.');
+    return;
+  }
+  setLoading(true);
+  setError(null);
+  setResult(null);
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await fetch(`/api/transcribe`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      setError(err.detail || 'Bir hata oluştu.');
+      setLoading(false);
+      return;
     }
-    setLoading(false);
-  };
-
+    const data = await res.json();
+    // ... polling kodu ...
+  } catch (e) {
+    setError('Bir hata oluştu.');
+  }
+  setLoading(false);
+};
   const handleUrlTranscribe = async () => {
     if (!url) return;
     setLoading(true);
