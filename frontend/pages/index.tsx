@@ -7,7 +7,7 @@ export default function Home() {
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // API adresini ortam değişkeninden al
+  // Railway'de API_URL boş bırakılırsa kendi domainini kullanır
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,4 +112,4 @@ export default function Home() {
       <footer className="mt-8 text-gray-400 text-sm">Modern Transkript App &copy; 2024</footer>
     </div>
   );
-} 
+}
