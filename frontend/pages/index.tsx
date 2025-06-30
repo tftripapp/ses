@@ -8,7 +8,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   // Railway'de API_URL boş bırakılırsa kendi domainini kullanır
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+  const API_URL = '';
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -112,4 +112,4 @@ export default function Home() {
       <footer className="mt-8 text-gray-400 text-sm">Modern Transkript App &copy; 2024</footer>
     </div>
   );
-}
+} 
