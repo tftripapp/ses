@@ -8,7 +8,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   // API adresini ortam değişkeninden al
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
